@@ -1,0 +1,4 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+cat "$1" | grep -v '^#' | ./node_modules/.bin/cspell stdin

@@ -1,0 +1,41 @@
+{
+    "name": "core-mvc",
+    "version": "0.0.3",
+    "description": "Simple but powerful MVC framework for NodeJS.",
+    "main": "index.js",
+    "scripts": {
+        "test": "cspell \"**/*\" --no-progress",
+        "format": "prettier --write \"src/**/*.{ts,tsx,json}\"",
+        "prepare": "husky install"
+    },
+    "devDependencies": {
+        "cspell": "^5.13.0",
+        "husky": "^7.0.4",
+        "prettier": "^2.4.1"
+    },
+    "prettier": {
+        "trailingComma": "es5",
+        "tabWidth": 4,
+        "semi": true,
+        "printWidth": 80,
+        "singleQuote": true,
+        "arrowParens": "avoid"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/istvan-xyz/core-mvc.git"
+    },
+    "keywords": [
+        "mvc",
+        "framework",
+        "di",
+        "express",
+        "graphql"
+    ],
+    "author": "István Antal <istvan@antal.xyz>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/istvan-xyz/core-mvc/issues"
+    },
+    "homepage": "https://github.com/istvan-xyz/core-mvc#readme"
+}

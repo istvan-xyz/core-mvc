@@ -1,0 +1,26 @@
+{
+    "version": "0.2",
+    "language": "en,de,fr,it",
+    "dictionaries": [
+        "german",
+        "corp-terms",
+        "fonts"
+    ],
+    "words": [
+        "Antal",
+        "István",
+        "Parens",
+        "tscache"
+    ],
+    "ignorePaths": [
+        "*.snap",
+        ".git",
+        "*.mp4",
+        "*.svg",
+        "*.tar.gz",
+        "node_modules",
+        ".vscode",
+        "package-lock.json",
+        "tscache"
+    ]
+}
