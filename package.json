@@ -1,13 +1,14 @@
 {
     "name": "core-mvc",
-    "version": "0.0.3",
+    "version": "0.0.2",
     "description": "Simple but powerful MVC framework for NodeJS.",
     "main": "index.js",
     "scripts": {
         "build": "tsc",
         "test": "cspell \"**/*\" --no-progress",
         "format": "prettier --write \"src/**/*.{ts,tsx,json}\"",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "postversion": "git push --tags && git push"
     },
     "devDependencies": {
         "cspell": "^5.13.0",
