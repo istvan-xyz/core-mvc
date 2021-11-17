@@ -1,4 +1,4 @@
-import { accessSymbol } from './runtime/securitySymbols';
+import { accessSymbol } from './runtime/accessSymbol';
 
 export const access =
     () =>
