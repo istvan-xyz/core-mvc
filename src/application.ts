@@ -2,7 +2,7 @@ import { AsyncContainerModule, Container } from 'inversify';
 import { buildProviderModule } from 'inversify-binding-decorators';
 import { initializeControllers } from './runtime/lifecycle';
 
-class Application {
+export class Application {
     private containerModules: AsyncContainerModule[] = [];
 
     addContainerModule(containerModule: AsyncContainerModule) {
@@ -18,5 +18,3 @@ class Application {
         initializeControllers(container);
     }
 }
-
-export default Application;
