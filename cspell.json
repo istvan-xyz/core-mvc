@@ -1,20 +1,19 @@
 {
     "version": "0.2",
     "language": "en,de,fr,it",
-    "dictionaries": [
-        "german",
-        "corp-terms",
-        "fonts"
-    ],
+    "dictionaries": ["german", "corp-terms", "fonts"],
     "words": [
         "Antal",
+        "apollographql",
         "codepaths",
         "inversify",
         "István",
+        "ormconfig",
         "Parens",
         "postversion",
         "tsbuildinfo",
-        "tscache"
+        "tscache",
+        "typeorm"
     ],
     "ignorePaths": [
         "*.snap",
@@ -22,6 +21,9 @@
         "*.mp4",
         "*.svg",
         "*.tar.gz",
+        "*.js",
+        "*.d.ts",
+        "*.d.ts.map",
         "node_modules",
         ".vscode",
         "package-lock.json",
