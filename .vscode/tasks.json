@@ -2,8 +2,8 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "type": "npm",
-            "script": "version patch",
+            "type": "shell",
+            "command": "npm version patch",
             "problemMatcher": [],
             "label": "Release patch",
             "detail": "Create a patch (x.x.*) release"
