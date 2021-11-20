@@ -16,5 +16,7 @@ export class Application {
         }
         container.load(buildProviderModule());
         initializeControllers(container);
+
+        return { container };
     }
 }
