@@ -2,6 +2,7 @@ import { Container } from 'inversify';
 import controllerRegistry from './controllerRegistry';
 import gqlHandler from './gqlHandler';
 import taskRegistry from './taskRegistry';
+import { taskPropertySymbol } from './taskSymbols';
 
 export const initializeControllers = (container: Container) => {
     for (const controller of controllerRegistry) {
@@ -19,12 +20,19 @@ export const retrieveTasks = (container: Container) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const instance: any = container.get(controller.constructor);
         for (const name of Reflect.ownKeys(controller)) {
-            result.push({
-                name,
-                run: (...args: unknown[]) => instance[name](...args),
+            const taskName: string | undefined = Reflect.getMetadata(
+                taskPropertySymbol,
                 controller,
-                instance,
-            });
+                name
+            );
+            if (taskName) {
+                result.push({
+                    name,
+                    run: (...args: unknown[]) => instance[name](...args),
+                    controller,
+                    instance,
+                });
+            }
         }
     }
     return result;
