@@ -6,6 +6,7 @@ import { gqlFieldResolverSymbol } from './runtime/gqlSymbols';
 export interface ResolverRequest<P = { [key: string]: unknown }, R = {}> {
     params: P;
     parent: R;
+    user?: unknown;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

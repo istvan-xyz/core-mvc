@@ -39,6 +39,7 @@ const gqlHandler = (controller: any, instance: any, name: string | symbol) => {
                     const resolverRequest: ResolverRequest = {
                         params: args[1],
                         parent: args[0],
+                        user: args[2].req.user,
                     };
 
                     if (shouldDenyAccess(controller, name, args[2])) {
