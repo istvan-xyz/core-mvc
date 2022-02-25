@@ -9,8 +9,18 @@ export class Application {
         this.containerModules.push(containerModule);
     }
 
-    async start() {
-        const container = new Container();
+    async start({
+        container = new Container(),
+    }: {
+        /**
+         * Useful for migrating large apps that initialize their own container.
+         *
+         * Do not use in new projects.
+         *
+         * @deprecated
+         */
+        container?: Container;
+    } = {}) {
         for (const containerModule of this.containerModules) {
             await container.loadAsync(containerModule);
         }
