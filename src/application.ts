@@ -2,10 +2,19 @@ import { AsyncContainerModule, Container } from 'inversify';
 import { buildProviderModule } from 'inversify-binding-decorators';
 import { initializeControllers } from './runtime/lifecycle';
 
-export class Application {
-    private containerModules: AsyncContainerModule[] = [];
+type AsyncContainerModuleCreator = (
+    container: Container
+) => AsyncContainerModule;
 
-    addContainerModule(containerModule: AsyncContainerModule) {
+export class Application {
+    private containerModules: (
+        | AsyncContainerModule
+        | AsyncContainerModuleCreator
+    )[] = [];
+
+    addContainerModule(
+        containerModule: AsyncContainerModule | AsyncContainerModuleCreator
+    ) {
         this.containerModules.push(containerModule);
     }
 
@@ -22,7 +31,11 @@ export class Application {
         container?: Container;
     } = {}) {
         for (const containerModule of this.containerModules) {
-            await container.loadAsync(containerModule);
+            await container.loadAsync(
+                containerModule instanceof AsyncContainerModule
+                    ? containerModule
+                    : containerModule(container)
+            );
         }
         container.load(buildProviderModule());
         initializeControllers(container);
