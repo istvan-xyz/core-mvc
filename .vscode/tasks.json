@@ -3,10 +3,24 @@
     "tasks": [
         {
             "type": "shell",
+            "command": "npm version major",
+            "problemMatcher": [],
+            "label": "Release major",
+            "detail": "Create a major (*.0.0) release"
+        },
+        {
+            "type": "shell",
+            "command": "npm version minor",
+            "problemMatcher": [],
+            "label": "Release minor",
+            "detail": "Create a minor (1.*.0) release"
+        },
+        {
+            "type": "shell",
             "command": "npm version patch",
             "problemMatcher": [],
             "label": "Release patch",
-            "detail": "Create a patch (x.x.*) release"
+            "detail": "Create a patch (1.2.*) release"
         }
     ]
 }
