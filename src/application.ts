@@ -2,7 +2,7 @@ import { AsyncContainerModule, Container } from 'inversify';
 import { buildProviderModule } from 'inversify-binding-decorators';
 import { initializeControllers } from './runtime/lifecycle';
 
-type AsyncContainerModuleCreator = (
+export type AsyncContainerModuleCreator = (
     container: Container
 ) => AsyncContainerModule;
 
