@@ -1,6 +1,6 @@
 import { AsyncContainerModule } from 'inversify';
 import { readFileSync } from 'fs';
-import { createConnection, Connection } from 'typeorm';
+import { DataSource } from 'typeorm';
 import type { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
 const ormConfig: {
@@ -15,9 +15,10 @@ const ormConfig: {
 } = JSON.parse(readFileSync(`${process.cwd()}/ormconfig.json`).toString());
 
 const typeorm = new AsyncContainerModule(async bind => {
-    bind<Connection>(Connection).toConstantValue(
-        await createConnection(ormConfig as PostgresConnectionOptions)
-    );
+    const dataSource = new DataSource(ormConfig as PostgresConnectionOptions);
+    await dataSource.initialize();
+
+    bind<DataSource>(DataSource).toConstantValue(dataSource);
 });
 
 export default typeorm;
