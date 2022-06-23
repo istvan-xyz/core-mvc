@@ -2,7 +2,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { ApolloServer } from 'apollo-server-express';
-import { mergeTypeDefs } from '@graphql-toolkit/schema-merging';
+import { mergeTypeDefs } from '@graphql-tools/merge';
 import { ApolloServerPluginLandingPageDisabled } from 'apollo-server-core';
 import {
     renderPlaygroundPage,
