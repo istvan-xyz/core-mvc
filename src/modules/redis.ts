@@ -10,6 +10,15 @@ const redis = new AsyncContainerModule(async bind => {
         url: `redis://${process.env.REDIS_HOST}:${
             process.env.REDIS_PORT || '6379'
         }`,
+        socket: {
+            reconnectStrategy(retries: number) {
+                if (retries < 10) {
+                    return 1_000;
+                }
+
+                return new Error('No retries left');
+            },
+        },
     });
 
     client.on('error', (error: unknown) => {
