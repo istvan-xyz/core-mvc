@@ -13,7 +13,8 @@
         "postversion",
         "tsbuildinfo",
         "tscache",
-        "typeorm"
+        "typeorm",
+        "jsonwebtoken"
     ],
     "ignorePaths": [
         "*.snap",
