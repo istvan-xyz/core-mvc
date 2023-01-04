@@ -1,4 +1,4 @@
-import { ForbiddenError } from 'apollo-server-core';
+import { GraphQLError } from 'graphql';
 import { define } from './gqlDefinitions';
 import { ResolverRequest, Result } from '../gql';
 import { gqlFieldResolverSymbol } from './gqlSymbols';
@@ -43,7 +43,9 @@ const gqlHandler = (controller: any, instance: any, name: string | symbol) => {
                     };
 
                     if (shouldDenyAccess(controller, name, args[2])) {
-                        throw new ForbiddenError(`Not authorized to do this`);
+                        throw new GraphQLError(`Not authorized to do this`, {
+                            extensions: { code: 'FORBIDDEN' },
+                        });
                     }
 
                     const response = await instance[name](resolverRequest);

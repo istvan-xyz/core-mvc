@@ -1,17 +1,18 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import { ApolloServer } from 'apollo-server-express';
+import gql from 'graphql-tag';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
 import { mergeTypeDefs } from '@graphql-tools/merge';
-import { ApolloServerPluginLandingPageDisabled } from 'apollo-server-core';
 import {
     renderPlaygroundPage,
     RenderPageOptions as PlaygroundRenderPageOptions,
 } from '@apollographql/graphql-playground-html';
-import { gql } from 'apollo-server-core';
 import { getResolvers, getTypeDefinitions } from './runtime/gqlDefinitions';
 import decodeToken from './jwt/decodeToken';
 import { userFromTokenData } from './jwt/userDataFromToken';
+import { json } from 'express';
 
 export class ApiServer<T> {
     constructor(private readonly userClass: { new (): T }) {}
@@ -90,13 +91,17 @@ export class ApiServer<T> {
             const apolloServer = new ApolloServer({
                 typeDefs: mergeTypeDefs(schema, {}),
                 resolvers,
-                context: context => context,
                 rootValue: global,
-                plugins: [ApolloServerPluginLandingPageDisabled()],
             });
 
             await apolloServer.start();
-            apolloServer.applyMiddleware({ app: server, path: '/' });
+
+            server.use(
+                '/',
+                cors<cors.CorsRequest>(),
+                json(),
+                expressMiddleware(apolloServer)
+            );
 
             server.listen(port, host, () => {
                 console.log(`Server listening ${host}:${port}`);
