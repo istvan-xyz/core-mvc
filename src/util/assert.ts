@@ -1,4 +1,4 @@
-function assert<T>(
+export function assert<T>(
     condition: T,
     msg: string | { toString(): string } | Error = 'assert failed'
 ): asserts condition {
