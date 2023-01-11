@@ -14,7 +14,8 @@
         "tsbuildinfo",
         "tscache",
         "typeorm",
-        "jsonwebtoken"
+        "jsonwebtoken",
+        "Deno"
     ],
     "ignorePaths": [
         "*.snap",
