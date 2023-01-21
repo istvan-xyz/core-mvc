@@ -30,6 +30,13 @@ test('instrumented', async () => {
             return this.value1;
         }
 
+        @instrumented({
+            singleArgument: true,
+        })
+        syncMethodWithSingleArgument(id: number) {
+            return this.value1;
+        }
+
         @instrumented()
         async asyncMethod() {
             await sleep(5);
@@ -76,6 +83,15 @@ test('instrumented', async () => {
     expect(log).toBeCalledWith({
         source: 'MyClass',
         event: 'syncMethodWithArgumentFormatter',
+        args: 6,
+        duration: expect.any(Number),
+    });
+
+    expect(object.syncMethodWithSingleArgument(6)).toBe(42);
+
+    expect(log).toBeCalledWith({
+        source: 'MyClass',
+        event: 'syncMethodWithSingleArgument',
         args: 6,
         duration: expect.any(Number),
     });

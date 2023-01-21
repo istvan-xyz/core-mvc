@@ -14,8 +14,10 @@ export const instrumented =
     ({
         argumentFormat,
         includeResult,
+        singleArgument,
     }: {
         includeResult?: boolean;
+        singleArgument?: boolean;
         argumentFormat?: (...args: any[]) => unknown;
     } = {}) =>
     (
@@ -34,12 +36,18 @@ export const instrumented =
 
             const result = method.apply(this, args);
 
+            const argValue = singleArgument
+                ? args[0]
+                : argumentFormat
+                ? argumentFormat(...args)
+                : args;
+
             if (isPromise(result)) {
                 return result.then(value => {
                     log({
                         event: propertyName,
                         source,
-                        args: argumentFormat ? argumentFormat(...args) : args,
+                        args: argValue,
                         result: includeResult ? value : undefined,
                         duration: (Date.now() - startTime) / 1000,
                     });
@@ -50,7 +58,7 @@ export const instrumented =
             log({
                 event: propertyName,
                 source,
-                args: argumentFormat ? argumentFormat(...args) : args,
+                args: argValue,
                 result: includeResult ? result : undefined,
                 duration: (Date.now() - startTime) / 1000,
             });
