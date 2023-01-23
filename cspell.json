@@ -1,21 +1,26 @@
 {
     "version": "0.2",
     "language": "en,de,fr,it",
-    "dictionaries": ["german", "corp-terms", "fonts"],
+    "dictionaries": [
+        "german",
+        "corp-terms",
+        "fonts"
+    ],
     "words": [
         "Antal",
         "apollographql",
         "codepaths",
+        "Deno",
+        "GITHUB",
         "inversify",
         "István",
+        "jsonwebtoken",
         "ormconfig",
         "Parens",
         "postversion",
         "tsbuildinfo",
         "tscache",
-        "typeorm",
-        "jsonwebtoken",
-        "Deno"
+        "typeorm"
     ],
     "ignorePaths": [
         "*.snap",
