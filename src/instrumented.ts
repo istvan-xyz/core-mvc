@@ -15,9 +15,11 @@ export const instrumented =
         argumentFormat,
         includeResult,
         singleArgument,
+        minDuration = -1,
     }: {
         includeResult?: boolean;
         singleArgument?: boolean;
+        minDuration?: number;
         argumentFormat?: (...args: any[]) => unknown;
     } = {}) =>
     (
@@ -44,24 +46,31 @@ export const instrumented =
 
             if (isPromise(result)) {
                 return result.then(value => {
-                    log({
-                        event: propertyName,
-                        source,
-                        args: argValue,
-                        result: includeResult ? value : undefined,
-                        duration: (Date.now() - startTime) / 1000,
-                    });
+                    const duration = (Date.now() - startTime) / 1000;
+                    if (duration > minDuration) {
+                        log({
+                            event: propertyName,
+                            source,
+                            args: argValue,
+                            result: includeResult ? value : undefined,
+                            duration,
+                        });
+                    }
                     return value;
                 });
             }
 
-            log({
-                event: propertyName,
-                source,
-                args: argValue,
-                result: includeResult ? result : undefined,
-                duration: (Date.now() - startTime) / 1000,
-            });
+            const duration = (Date.now() - startTime) / 1000;
+
+            if (duration > minDuration) {
+                log({
+                    event: propertyName,
+                    source,
+                    args: argValue,
+                    result: includeResult ? result : undefined,
+                    duration,
+                });
+            }
 
             return result;
         };

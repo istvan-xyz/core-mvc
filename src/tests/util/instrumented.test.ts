@@ -1,4 +1,4 @@
-import { test, vi, expect } from 'vitest';
+import { test, vi, expect, afterEach } from 'vitest';
 import { instrumented } from '../../instrumented';
 import { log } from '../../util/log';
 import sleep from '../../util/sleep';
@@ -6,6 +6,10 @@ import sleep from '../../util/sleep';
 vi.mock('../../util/log', () => ({
     log: vi.fn(),
 }));
+
+afterEach(() => {
+    vi.restoreAllMocks();
+});
 
 test('instrumented', async () => {
     class MyClass {
@@ -130,6 +134,70 @@ test('instrumented', async () => {
         event: 'asyncMethodWithArgumentFormatAndResult',
         args: { id: 3 },
         result: 43,
+        duration: expect.any(Number),
+    });
+});
+
+test('minDuration no log', async () => {
+    class MyClass {
+        private value2: number;
+
+        constructor() {
+            this.value2 = 43;
+        }
+
+        @instrumented({
+            minDuration: 5,
+        })
+        async asyncMethodThatRunsFor20Mills() {
+            await sleep(20);
+            return this.value2;
+        }
+
+        @instrumented({
+            minDuration: 5,
+        })
+        async asyncMethodThatRunsFor0Mills() {
+            return this.value2;
+        }
+    }
+
+    const object = new MyClass();
+
+    expect(await object.asyncMethodThatRunsFor20Mills()).toBe(43);
+
+    expect(log).not.toHaveBeenCalled();
+
+    expect(await object.asyncMethodThatRunsFor0Mills()).toBe(43);
+
+    expect(log).not.toHaveBeenCalled();
+});
+
+test('minDuration log', async () => {
+    class MyClass {
+        private value2: number;
+
+        constructor() {
+            this.value2 = 43;
+        }
+
+        @instrumented({
+            minDuration: 0.001,
+        })
+        async asyncMethodThatRunsFor20Mills() {
+            await sleep(20);
+            return this.value2;
+        }
+    }
+
+    const object = new MyClass();
+
+    expect(await object.asyncMethodThatRunsFor20Mills()).toBe(43);
+
+    expect(log).toBeCalledWith({
+        source: 'MyClass',
+        event: 'asyncMethodThatRunsFor20Mills',
+        args: [],
         duration: expect.any(Number),
     });
 });
