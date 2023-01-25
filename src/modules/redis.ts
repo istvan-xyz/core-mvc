@@ -12,7 +12,7 @@ const redis = new AsyncContainerModule(async bind => {
         }`,
         socket: {
             reconnectStrategy(retries: number) {
-                if (retries < 10) {
+                if (retries < 60) {
                     return 1_000;
                 }
 
