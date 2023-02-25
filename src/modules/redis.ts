@@ -1,5 +1,5 @@
 import { AsyncContainerModule } from 'inversify';
-import { createClient } from '@node-redis/client';
+import { createClient } from '@redis/client';
 import { RedisClientService, RedisSubscriberClientService } from '../redis';
 import assert from '../util/assert';
 
