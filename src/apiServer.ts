@@ -100,7 +100,12 @@ export class ApiServer<T> {
                 '/',
                 cors<cors.CorsRequest>(),
                 json(),
-                expressMiddleware(apolloServer)
+                expressMiddleware(server as unknown as ApolloServer, {
+                    context: async ({ req, res }) => ({
+                        req,
+                        res,
+                    }),
+                })
             );
 
             server.listen(port, host, () => {
