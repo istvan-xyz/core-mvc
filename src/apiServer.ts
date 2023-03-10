@@ -92,15 +92,18 @@ export class ApiServer<T> {
                 typeDefs: mergeTypeDefs(schema, {}),
                 resolvers,
                 rootValue: global,
+                allowBatchedHttpRequests: true,
             });
 
             await apolloServer.start();
 
             server.use(
                 '/',
-                cors<cors.CorsRequest>(),
+                cors({
+                    maxAge: 3600,
+                }),
                 json(),
-                expressMiddleware(server as unknown as ApolloServer, {
+                expressMiddleware(apolloServer as unknown as ApolloServer, {
                     context: async ({ req, res }) => ({
                         req,
                         res,
