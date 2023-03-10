@@ -1,6 +1,6 @@
 {
     "name": "core-mvc",
-    "version": "2.2.2",
+    "version": "2.2.3",
     "description": "Simple but powerful MVC framework for NodeJS.",
     "main": "index.js",
     "scripts": {
