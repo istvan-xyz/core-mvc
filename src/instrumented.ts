@@ -16,10 +16,12 @@ export const instrumented =
         includeResult,
         singleArgument,
         minDuration = -1,
+        maxDuration,
     }: {
         includeResult?: boolean;
         singleArgument?: boolean;
         minDuration?: number;
+        maxDuration?: number;
         argumentFormat?: (...args: any[]) => unknown;
     } = {}) =>
     (
@@ -36,6 +38,19 @@ export const instrumented =
         propertyDescriptor.value = function (...args: any[]) {
             const startTime = Date.now();
 
+            const maxTimeout = maxDuration
+                ? setTimeout(() => {
+                      const duration = (Date.now() - startTime) / 1000;
+                      log({
+                          event: propertyName,
+                          source,
+                          stage: 'timeout',
+                          args: argValue,
+                          duration,
+                      });
+                  }, maxDuration * 1_000)
+                : undefined;
+
             const result = method.apply(this, args);
 
             const argValue = singleArgument
@@ -46,6 +61,10 @@ export const instrumented =
 
             if (isPromise(result)) {
                 return result.then(value => {
+                    if (maxTimeout) {
+                        clearTimeout(maxTimeout);
+                    }
+
                     const duration = (Date.now() - startTime) / 1000;
                     if (duration > minDuration) {
                         log({
@@ -58,6 +77,10 @@ export const instrumented =
                     }
                     return value;
                 });
+            }
+
+            if (maxTimeout) {
+                clearTimeout(maxTimeout);
             }
 
             const duration = (Date.now() - startTime) / 1000;

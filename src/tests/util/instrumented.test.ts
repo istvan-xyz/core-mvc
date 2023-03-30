@@ -201,3 +201,33 @@ test('minDuration log', async () => {
         duration: expect.any(Number),
     });
 });
+
+test('maxDuration log', async () => {
+    class MyClass {
+        private value2: number;
+
+        constructor() {
+            this.value2 = 43;
+        }
+
+        @instrumented({
+            maxDuration: 0.001,
+        })
+        async asyncMethodThatRunsFor20Mills() {
+            await sleep(20);
+            return this.value2;
+        }
+    }
+
+    const object = new MyClass();
+
+    expect(await object.asyncMethodThatRunsFor20Mills()).toBe(43);
+
+    expect(log).toBeCalledWith({
+        source: 'MyClass',
+        event: 'asyncMethodThatRunsFor20Mills',
+        stage: 'timeout',
+        args: [],
+        duration: expect.any(Number),
+    });
+});
