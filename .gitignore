@@ -7,3 +7,5 @@
 /util
 /jwt
 /modules
+/tests
+.DS_Store

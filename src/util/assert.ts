@@ -1,6 +1,6 @@
 export function assert<T>(
     condition: T,
-    msg: string | { toString(): string } | Error = 'assert failed'
+    msg: string | { toString(): string } | Error
 ): asserts condition {
     if (!condition) {
         if (typeof msg === 'string') {

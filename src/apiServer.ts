@@ -33,7 +33,7 @@ export class ApiServer<T> {
 
         server.use(cookieParser());
 
-        const port = 11111;
+        const port = process.env.PORT ? +process.env.PORT : 11111;
         const host = '0.0.0.0';
 
         const schema = [
